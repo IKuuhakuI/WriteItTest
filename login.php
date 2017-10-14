@@ -46,6 +46,7 @@
 
 			h2{text-align: center;margin-top: 20px;}
 			h3{text-align: center; color: #1E90FF; margin-top: 20px;}
+			a{text-decoration: none; color: #333;}
 		</style>
 
 	</head>
@@ -66,6 +67,8 @@
 			</form>
 		<!--FIM DO CAMPO DE LOGIN-->
 
-		<h3>Ainda não tem uma conta?<a href="registrar.php">crie uma agora mesmo!</a></h3>
+		<h3>Ainda não tem uma conta?<a href="registrar.php"> Crie uma agora mesmo!</a></h3>
 	</body>
 </html>
+
+
