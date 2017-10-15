@@ -4,14 +4,14 @@
 	$pubs = mysql_query("SELECT * FROM pubs ORDER BY id desc");
 
 	if (isset($_POST['publish'])) {
-		if ($_FILES["file"]["error"] > 0) {
+		if ($_FILES["file"]["error"]>0) {
 			$texto = $_POST["texto"];
 			$hoje = date("Y-m-d");
  
 			if ($texto == "") {
 				echo "<h3>A publicãção não pode estar em branco!</h3>";
 			}else{
-				$query = "INSERT INTO pubs (user,texto,data) VALUES ('$login_cookie','$texto','$hoje')";
+				$query = "INSERT INTO pubs (user,texto, data) VALUES ('$login_cookie','$texto','$hoje')";
 				$data = mysql_query($query) or die();
 				if ($data) {
 					header("Location: ./");
@@ -62,14 +62,13 @@
 
 	<body>
 		<div id = "publish">
-			<form method="POST" enctype="multipart/from-data">
+			<form method="POST" enctype="multipart/form-data">
 				<br />
 				<textarea placeholder="Compartilhe suas ideias..." name="texto"></textarea>
 				
 				<label for="file-input">
 					<img src="img/imagegrey.png" title="Inserir fotos" />
 				</label>
-
 				<input type="submit" value="Publicar" name="publish" />
 				<input type="file" id="file-input" name="file" hidden />
 
@@ -81,17 +80,17 @@
 				$email = $pub['user'];
 				$saberr = mysql_query("SELECT * FROM users WHERE email='$email'");
 				$saber = mysql_fetch_assoc($saberr);
-				$nome = $saber['nome']." ". $saber['apelido'];
+				$nome = $saber['apelido'];
 				$id = $pub['id'];
 
-				if($pub['imagem']==""){
+				if($pub['imagem'] == ""){
 					echo '<div class="pub" id="'.$id.'">
-						<p><a href="#">'.$nome.'</a> - '.$sub["data"].'</p>
+						<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
 						<span>'.$pub['texto'].'</span> <br />
 					</div>';
 				} else{
 					echo'<div class="pub" id="'.$id.'">
-						<p><a href="#">'.$nome.'</a> - '.$pub["data"].'</p>
+						<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
 						<span>'.$pub['texto'].'</span>
 						<img src = "upload/'.$pub["imagem"].'" />
 					</div>';
