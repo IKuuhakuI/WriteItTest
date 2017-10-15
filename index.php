@@ -1,4 +1,3 @@
 <?php  
-	include("db.php");
-	echo "Olá mundo";
+	include("header.php");
 ?>
