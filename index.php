@@ -1,10 +1,13 @@
 <?php
-include("header.php");
+	include("header.php");
+
+	$pubs = mysql_query("SELECT * FROM pubs ORDER BY id desc");
+
 	if (isset($_POST['publish'])) {
 		if ($_FILES["file"]["error"] > 0) {
 			$texto = $_POST["texto"];
 			$hoje = date("Y-m-d");
-
+ 
 			if ($texto == "") {
 				echo "<h3>A publicãção não pode estar em branco!</h3>";
 			}else{
@@ -48,6 +51,12 @@ include("header.php");
 			div#publish img{margin-top: 50px;margin-left: 10px;width: 40px;cursor: pointer;}
 			div#publish input[type="submit"]{width: 70px;height: 25px;border-radius: 3px; float: right; margin-right: 15px; border:none; margin-top: 5px; background: #4169E1; color: #FFF; margin-top: 55px;}
 			div#publish input[type="submit"]:hover{background: #001F3F;cursor: pointer;}
+			div.pub{width: 400px; min-height: 70px; max-height: 1000px; display: block; margin: auto; border: none; border-radius: 5px; background-color: #FFF; box-shadow: 0 0 6px #A1A1A1; margin-top: 30px;}
+			div.pub a{color: #666; text-decoration: none;}
+			div.pub a:hover{color: #111; text-decoration: none;}
+			div.pub p{margin-left: 10px; content: #666; padding-top: 10px;}
+			div.pub span{display: block; margin: auto; width: 380px; margin-top: 10px;}
+			div.pub img{display: block; margin: auto; width: 100%; margin-top: 10px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
 		</style>
 	</header>
 
@@ -66,6 +75,28 @@ include("header.php");
 
 			</form>
 		</div>
-		
+	
+		<?php
+			while ($pub=mysql_fetch_assoc($pubs)) {
+				$email = $pub['user'];
+				$saberr = mysql_query("SELECT * FROM users WHERE email='$email'");
+				$saber = mysql_fetch_assoc($saberr);
+				$nome = $saber['nome']." ". $saber['apelido'];
+				$id = $pub['id'];
+
+				if($pub['imagem']==""){
+					echo '<div class="pub" id="'.$id.'">
+						<p><a href="#">'.$nome.'</a> - '.$sub["data"].'</p>
+						<span>'.$pub['texto'].'</span> <br />
+					</div>';
+				} else{
+					echo'<div class="pub" id="'.$id.'">
+						<p><a href="#">'.$nome.'</a> - '.$pub["data"].'</p>
+						<span>'.$pub['texto'].'</span>
+						<img src = "upload/'.$pub["imagem"].'" />
+					</div>';
+				}
+			}
+		?>
 	</body>
 </html>
