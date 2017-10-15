@@ -1,14 +1,9 @@
 <?php
 	include("header.php");
 
-	$id = $_GET['id'];
-	$saberr = mysql_query("SELECT * FROM users WHERE id='$id'");
+	$saberr = mysql_query("SELECT * FROM users WHERE email='$login_cookie'");
 	$saber = mysql_fetch_assoc($saberr);
 	$email = $saber['email'];
-
-	if($email == $login_cookie){
-		header("Location: myprofile.php");
-	}
 
 	$pubs = mysql_query("SELECT * FROM pubs WHERE user='$email' ORDER BY id desc");
 
@@ -22,9 +17,7 @@
 			img#profile{width: 120px; height: 120px; display: block; margin: auto;margin-top: 30px; border-width: 5px; border: solid; border-color: #007fff; background-color: #007fff; border-radius:5px; margin-bottom: -35px;} 
 			div#menu{width: 300px; height: 120px;display: block; margin: auto; border: none; border-radius: 5px; background-color: #007fff; text-align: center;}
 			div#menu input{height: 25px; border: none; border-radius: 3px; background-color: #FFF; cursor: pointer; margin-top: -20px;}
-			div#menu input[name="remover"]{margin-right: 40px;}
-			div#menu input[name="cancelar"]{margin-right: 40px;}
-			div#menu input[name="add"]{margin-right: 40px;}
+			div#menu input[name="settings"]{margin-right: 40px;}
 			div#menu input:hover{height: 25px; border: none; border-radius: 3px; background-color: transparent; cursor: pointer; color: #FFF;}
 			div.pub{width: 400px; min-height: 70px; max-height: 1000px; display: block; margin: auto; border: none; border-radius: 5px; background-color: #FFF; box-shadow: 0 0 6px #A1A1A1; margin-top: 30px;}
 			div.pub a{color: #666; text-decoration: none;}
@@ -38,26 +31,16 @@
 	<body>
 		<?php 
 			if($saber["img"]==""){
-				echo '<img src="img/user.png" id ="profile">';
+				echo '<a href="#" style="width:120px; display: block; margin: auto;"><img src="img/user.png" id ="profile"></a>';
 			}else{
-				echo '<img src="upload/'.$saber["img"].'" id ="profile">';
+				echo '<a href="#" style="width:120px; display: block; margin: auto;"><img src="upload/'.$saber["img"].'" id ="profile"></a>';
 			}
 		?>
 
 		<div id="menu">
 			<form method="POST">
 				<h2><?php echo $saber['apelido']?></h2><br />
-				<?php
-					$amigos = mysql_query("SELECT * FROM amizades WHERE de='$login_cookie' AND para='$email' OR para='$login_cookie' AND de='$email'");
-					$amigoss = mysql_fetch_assoc($amigos);
-					if(mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="sim"){
-						echo '<input type="submit" value="Remover amigo" name="remover"><input type="submit" name="denunciar" value="Denunciar">';
-					} elseif (mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="nao") {
-						echo '<input type="submit" value="Cancelar pedido" name="cancelar"><input type="submit" name="denunciar" value="Denunciar">';
-					} else{
-						echo '<input type="submit" value="Adicionar amigo" name="add"><input type="submit" name="denunciar" value="Denunciar">';
-					}
-				?>
+				<input type="submit" value="Alterar info" name="settings"><input type="submit" name="amigos" value="Ver amigos">
 			</form>	
 		</div>
 

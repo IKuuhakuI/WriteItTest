@@ -29,14 +29,14 @@
 	</head>
 	<body>
 		<div id="topo">
-			<a href="#"><img src="img/logo.png" width="150px" name="logo"></a>
+			<a href="index.php"><img src="img/logo.png" width="150px" name="logo"></a>
 
 			<form method="GET">
 				<input type = "text" placeholder="Procure outras pessoas" name = "query" autocomplete="off">
 				<input type="submit" hidden>
 			</form>
 			<a href="#"><img src="img/chat.png" width="30px" name="menu"></a>
-			<a href="#"><img src="img/perfil.png" width="30px" name="menu"></a>	
+			<a href="myprofile.php"><img src="img/perfil.png" width="30px" name="menu"></a>	
 		</div>
 
 	</body>
