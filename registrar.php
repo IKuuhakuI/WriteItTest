@@ -1,31 +1,32 @@
 <?php
 	include("db.php");
-	if(isset($POST['criar'])){
-		$nome = $POST['nome'];
-		$apelido = $POST['apelido'];
-		$email = $POST['email'];
-		$pass = $POST['pass'];
-		$data = date("Y/M/D");
+	
+	if (isset($_POST['criar'])) {
+		$nome = $_POST['nome'];
+		$apelido = $_POST['apelido'];
+		$email = $_POST['email'];
+		$pass = $_POST['pass'];
+		$data = date("Y/m/d");
 
 		$email_check = mysql_query("SELECT email FROM users WHERE email='$email'");
 		$do_email_check = mysql_num_rows($email_check);
-		
-		if($do_email_check >= 1){
-			echo '<h3>Este email já está sendo usado</h3>';
-		} elseif ($nome == ' ' or strlen($nome < 3)) {
-			echo '<h3>O nome precisa de no mínimo 3 caracteres</h3>';
-		} elseif ($email == ' ' or strlen($email < 7)) {
-			echo '<h3>Email muito curto</h3>';
-		} elseif ($pass == ' ' or strlen($pass < 8)) {
-			echo '<h3>Senha precisa de no mínimo 8 caracteres</h3>';
+
+		if ($do_email_check >= 1) {
+			echo '<h3>Este email já está registado, faça o login <a href="login.php">aqui</a></h3>';
+		} elseif ($nome == '' OR strlen($nome)<3) {
+			echo '<h3>O nome precisa ser maior</h3>';
+		} elseif ($email == '' OR strlen($email)<7) {
+			echo '<h3>Email precisa ser maior</h3>';
+		} elseif ($pass == '' OR strlen($pass)<8) {
+			echo '<h3>A senha tem que ter mais que 8 caracteres!</h3>';
 		} else{
-			$query = "INSERT INTO users ('nome','apelido','email','password', 'data') VALUES ('$nome', '$apelido', '$email', '$pass', '$data')";
-			$data = mysql_query($query) or die (mysql_error());
-			if($data){
-				setcookie(login, "email");
+			$query = "INSERT INTO users (`nome`,`apelido`,`email`,`password`,`data`) VALUES ('$nome','$apelido','$email','$pass','$data')";
+			$data = mysql_query($query) or die(mysql_error());
+			if ($data) {
+				setcookie("login",$email);
 				header("Location: ./");
 			} else{
-				"<h3>Desculpe, ocorreu um erro ao registrar o usuário</h3>";
+				echo "<h3>Ocorreu um erro ao te registrar</h3>";
 			}
 		}
 	}
