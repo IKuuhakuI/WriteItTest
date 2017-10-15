@@ -1,5 +1,43 @@
-<?php  
-	include("header.php");
+<?php
+include("header.php");
+	if (isset($_POST['publish'])) {
+		if ($_FILES["file"]["error"] > 0) {
+			$texto = $_POST["texto"];
+			$hoje = date("Y-m-d");
+
+			if ($texto == "") {
+				echo "<h3>A publicãção não pode estar em branco!</h3>";
+			}else{
+				$query = "INSERT INTO pubs (user,texto,data) VALUES ('$login_cookie','$texto','$hoje')";
+				$data = mysql_query($query) or die();
+				if ($data) {
+					header("Location: ./");
+				}else{
+					echo "Alguma coisa deu errado... Tenta outra vez mais tarde";
+				}
+			}
+		}else{
+			$n = rand(0, 1000000);
+			$img = $n.$_FILES["file"]["name"];
+
+			move_uploaded_file($_FILES["file"]["tmp_name"], "upload/".$img);
+
+			$texto = $_POST['texto'];
+			$hoje = date("Y-m-d");
+
+			if ($texto == "") {
+				echo "<h3>A publicãção não pode estar em branco!</h3>";
+			}else{
+				$query = "INSERT INTO pubs (user,texto,imagem,data) VALUES ('$login_cookie','$texto','$img','$hoje')";
+				$data = mysql_query($query) or die();
+				if ($data) {
+					header("Location: ./");
+				}else{
+					echo "Alguma coisa deu errado... Tenta outra vez mais tarde";
+				}
+			}
+		}
+	}
 ?>
 
 <html>
@@ -23,10 +61,11 @@
 					<img src="img/imagegrey.png" title="Inserir fotos" />
 				</label>
 
-				<input type="submit" value="Publicar" name="Publish" />
+				<input type="submit" value="Publicar" name="publish" />
 				<input type="file" id="file-input" name="file" hidden />
 
 			</form>
 		</div>
+		
 	</body>
 </html>
