@@ -36,6 +36,7 @@
 				<input type="submit" hidden>
 			</form>
 			<a href="#"><img src="img/chat.png" width="30px" name="menu"></a>
+			<a href="pedidos.php"><img src="img/pedidos.png" width="50px" name="menu" style="margin-top:-35px;"></a>
 			<a href="myprofile.php"><img src="img/perfil.png" width="30px" name="menu"></a>	
 		</div>
 

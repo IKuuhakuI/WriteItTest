@@ -60,6 +60,54 @@
 			echo"<h3>Ocorreu um erro</h3>";
 		}
 	}
+
+	if(isset($_POST['remover'])){
+		remove();
+	}
+	
+	function remove(){
+		$login_cookie = $_COOKIE['login'];
+		if (!isset($login_cookie)) {
+			header("Location: login.php");
+		}
+		$id = $_GET['id'];
+		$saberr=mysql_query("SELECT * FROM users WHERE id='$id'");
+		$saber = mysql_fetch_assoc($saberr);
+		$email = $saber['email'];
+
+		$ins = "DELETE FROM amizades WHERE `de`='$login_cookie' AND `para`='$email' OR `para`='$login_cookie' AND `de`='$email'";
+		$conf = mysql_query($ins) or die(mysql_error());
+
+		if($conf){
+			header("Location: profile.php?id=".$id);
+		} else{
+			echo"<h3>Ocorreu um erro</h3>";
+		}
+	}
+
+	if(isset($_POST['aceitar'])){
+		aceitar();
+	}
+	
+	function aceitar(){
+		$login_cookie = $_COOKIE['login'];
+		if (!isset($login_cookie)) {
+			header("Location: login.php");
+		}
+		$id = $_GET['id'];
+		$saberr=mysql_query("SELECT * FROM users WHERE id='$id'");
+		$saber = mysql_fetch_assoc($saberr);
+		$email = $saber['email'];
+
+		$ins = "UPDATE amizades SET `aceite`='sim' WHERE `de`='$email' AND `para`='$login_cookie'";
+		$conf = mysql_query($ins) or die(mysql_error());
+
+		if($conf){
+			header("Location: profile.php?id=".$id);
+		} else{
+			echo"<h3>Ocorreu um erro</h3>";
+		}
+	}
 ?>
 
 <html>
@@ -69,9 +117,10 @@
 			img#profile{width: 120px; height: 120px; display: block; margin: auto;margin-top: 30px; border-width: 5px; border: solid; border-color: #007fff; background-color: #007fff; border-radius:5px; margin-bottom: -35px;} 
 			div#menu{width: 300px; height: 120px;display: block; margin: auto; border: none; border-radius: 5px; background-color: #007fff; text-align: center;}
 			div#menu input{height: 25px; border: none; border-radius: 3px; background-color: #FFF; cursor: pointer; margin-top: -20px;}
-			div#menu input[name="remover"]{margin-right: 40px;}
-			div#menu input[name="cancelar"]{margin-right: 40px;}
-			div#menu input[name="add"]{margin-right: 40px;}
+			div#menu input[name="remover"]{margin-right: 30px;}
+			div#menu input[name="cancelar"]{margin-right: 30px;}
+			div#menu input[name="add"]{margin-right: 30px;}
+			div#menu input[name="aceitar"]{margin-right: 30px;}
 			div#menu input:hover{height: 25px; border: none; border-radius: 3px; background-color: transparent; cursor: pointer; color: #FFF;}
 			div.pub{width: 400px; min-height: 70px; max-height: 1000px; display: block; margin: auto; border: none; border-radius: 5px; background-color: #FFF; box-shadow: 0 0 6px #A1A1A1; margin-top: 30px;}
 			div.pub a{color: #666; text-decoration: none;}
@@ -99,9 +148,11 @@
 					$amigoss = mysql_fetch_assoc($amigos);
 					if(mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="sim"){
 						echo '<input type="submit" value="Remover amigo" name="remover"><input type="submit" name="denunciar" value="Denunciar">';
-					} elseif (mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="nao") {
+					} elseif (mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="nao"  AND $amigoss["para"]=="$login_cookie") {
+						echo '<input type="submit" value="Aceitar pedido" name="aceitar"><input type="submit" name="denunciar" value="Denunciar">';
+					} elseif (mysql_num_rows($amigos)>=1 AND $amigoss["aceite"]=="nao"  AND $amigoss["de"]=="$login_cookie") {
 						echo '<input type="submit" value="Cancelar pedido" name="cancelar"><input type="submit" name="denunciar" value="Denunciar">';
-					} else{
+					}  else{
 						echo '<input type="submit" value="Adicionar amigo" name="add"><input type="submit" name="denunciar" value="Denunciar">';
 					}
 				?>
