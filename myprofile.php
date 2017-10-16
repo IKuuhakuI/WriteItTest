@@ -7,7 +7,9 @@
 
 	$pubs = mysql_query("SELECT * FROM pubs WHERE user='$email' ORDER BY id desc");
 
-	
+	if (isset($_POST['settings'])){
+		header("Location: settings.php");
+	}
 ?>
 
 <html>
@@ -25,15 +27,16 @@
 			div.pub p{margin-left: 10px; content: #666; padding-top: 10px;}
 			div.pub span{display: block; margin: auto; width: 380px; margin-top: 10px;}
 			div.pub img{display: block; margin: auto; width: 100%; margin-top: 10px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
+
 		</style>
 	</header>
 
 	<body>
 		<?php 
 			if($saber["img"]==""){
-				echo '<a href="#" style="width:120px; display: block; margin: auto;"><img src="img/user.png" id ="profile"></a>';
+				echo '<a href="profilepic.php" style="width:120px; display: block; margin: auto;"><img src="img/user.png" id ="profile"></a>';
 			}else{
-				echo '<a href="#" style="width:120px; display: block; margin: auto;"><img src="upload/'.$saber["img"].'" id ="profile"></a>';
+				echo '<a href="profilepic.php" style="width:120px; display: block; margin: auto;"><img src="upload/'.$saber["img"].'" id ="profile"></a>';
 			}
 		?>
 

@@ -57,6 +57,7 @@
 			div.pub p{margin-left: 10px; content: #666; padding-top: 10px;}
 			div.pub span{display: block; margin: auto; width: 380px; margin-top: 10px;}
 			div.pub img{display: block; margin: auto; width: 100%; margin-top: 10px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
+			#footer{color: #000; text-align: center;}
 		</style>
 	</header>
 
@@ -97,5 +98,7 @@
 				}
 			}
 		?>
+		<br />
+		<div id="footer"><p>&copy; Write It, 2017 - Todos os direitos Reservados</p></div>
 	</body>
 </html>

@@ -12,7 +12,54 @@
 
 	$pubs = mysql_query("SELECT * FROM pubs WHERE user='$email' ORDER BY id desc");
 
+	if(isset($_POST['add'])){
+		add();
+	}
 	
+	function add(){
+		$login_cookie = $_COOKIE['login'];
+		if (!isset($login_cookie)) {
+			header("Location: login.php");
+		}
+		$id = $_GET['id'];
+		$saberr=mysql_query("SELECT * FROM users WHERE id='$id'");
+		$saber = mysql_fetch_assoc($saberr);
+		$email = $saber['email'];
+		$data = date("Y/m/d");
+
+		$ins = "INSERT INTO amizades (`de`,`para`,`data`) VALUES ('$login_cookie','$email','$data')";
+		$conf = mysql_query($ins) or die(mysql_error());
+
+		if($conf){
+			header("Location: profile.php?id=".$id);
+		} else{
+			echo"<h3>Ocorreu um erro</h3>";
+		}
+	}
+
+	if(isset($_POST['cancelar'])){
+		cancel();
+	}
+	
+	function cancel(){
+		$login_cookie = $_COOKIE['login'];
+		if (!isset($login_cookie)) {
+			header("Location: login.php");
+		}
+		$id = $_GET['id'];
+		$saberr=mysql_query("SELECT * FROM users WHERE id='$id'");
+		$saber = mysql_fetch_assoc($saberr);
+		$email = $saber['email'];
+
+		$ins = "DELETE FROM amizades WHERE `de`='$login_cookie' AND `para`='$email'";
+		$conf = mysql_query($ins) or die(mysql_error());
+
+		if($conf){
+			header("Location: profile.php?id=".$id);
+		} else{
+			echo"<h3>Ocorreu um erro</h3>";
+		}
+	}
 ?>
 
 <html>
