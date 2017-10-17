@@ -24,18 +24,18 @@
 			div#topo img[name=menu]{float: right; margin-right: 25px; margin-top: -28px;}
 			div#topo input[type=text]{display: block;margin:auto; width: 300px; border:none; border-radius: 3px; background:#F6F6F6; height: 25px; padding-left: 10px; box-shadow: 0 0 4px #000;}
 			div#topo form{margin:auto; width:300px; display: block; padding-top: 25px;}
-
+			div#footer{color: #000; text-align: center;}
 		</style>
 	</head>
 	<body>
 		<div id="topo">
 			<a href="index.php"><img src="img/logo.png" width="150px" name="logo"></a>
 
-			<form method="GET">
+			<form method="GET" action="pesquisar.php">
 				<input type = "text" placeholder="Procure outras pessoas" name = "query" autocomplete="off">
 				<input type="submit" hidden>
 			</form>
-			<a href="#"><img src="img/chat.png" width="30px" name="menu"></a>
+			<a href="inbox.php"><img src="img/chat.png" width="30px" name="menu"></a>
 			<a href="pedidos.php"><img src="img/pedidos.png" width="50px" name="menu" style="margin-top:-35px;"></a>
 			<a href="myprofile.php"><img src="img/perfil.png" width="30px" name="menu"></a>	
 		</div>

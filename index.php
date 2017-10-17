@@ -1,7 +1,22 @@
 <?php
 	include("header.php");
 
-	$pubs = mysql_query("SELECT * FROM pubs ORDER BY id desc");
+	$pubs = mysql_query("SELECT
+   		T.id, 
+   		   T.user, 
+    		  T.texto, 
+    		  T.imagem, 
+    		  T.data,
+    		  U.de,
+    		  U.para, 
+    		  U.aceite
+  		 FROM
+   		   pubs AS T,
+   		   amizades AS U 
+   		WHERE
+     		 T.user = U.de AND U.para = '$login_cookie' AND U.aceite='sim'
+     		 OR T.user = U.para AND U.de = '$login_cookie' AND U.aceite='sim'
+      		order by T.id DESC;");
 
 	if (isset($_POST['publish'])) {
 		if ($_FILES["file"]["error"]>0) {
@@ -57,7 +72,6 @@
 			div.pub p{margin-left: 10px; content: #666; padding-top: 10px;}
 			div.pub span{display: block; margin: auto; width: 380px; margin-top: 10px;}
 			div.pub img{display: block; margin: auto; width: 100%; margin-top: 10px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;}
-			#footer{color: #000; text-align: center;}
 		</style>
 	</header>
 

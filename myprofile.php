@@ -69,5 +69,6 @@
 				}
 			}
 		?>
+		<div id="footer"><p>&copy; Write It, 2017 - Todos os direitos Reservados</p></div>
 	</body>
 </html>

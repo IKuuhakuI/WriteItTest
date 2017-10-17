@@ -70,19 +70,7 @@
 		if (!isset($login_cookie)) {
 			header("Location: login.php");
 		}
-		$id = $_GET['id'];
-		$saberr=mysql_query("SELECT * FROM users WHERE id='$id'");
-		$saber = mysql_fetch_assoc($saberr);
-		$email = $saber['email'];
-
-		$ins = "DELETE FROM amizades WHERE `de`='$login_cookie' AND `para`='$email' OR `para`='$login_cookie' AND `de`='$email'";
-		$conf = mysql_query($ins) or die(mysql_error());
-
-		if($conf){
-			header("Location: profile.php?id=".$id);
-		} else{
-			echo"<h3>Ocorreu um erro</h3>";
-		}
+		 
 	}
 
 	if(isset($_POST['aceitar'])){
@@ -160,26 +148,39 @@
 		</div>
 
 		<?php
-			while ($pub=mysql_fetch_assoc($pubs)) {
-				$email = $pub['user'];
-				$saberr = mysql_query("SELECT * FROM users WHERE email='$email'");
-				$saber = mysql_fetch_assoc($saberr);
-				$nome = $saber['apelido'];
-				$id = $pub['id'];
+			$amigoss = mysql_query("SELECT * FROM amizades WHERE de='$login_cookie' AND para='$email' AND aceite='sim' OR de='$email' AND para='$login_cookie' AND aceite='sim'");
+			$amigos = mysql_num_rows($amigoss);
 
-				if($pub['imagem'] == ""){
-					echo '<div class="pub" id="'.$id.'">
-						<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
-						<span>'.$pub['texto'].'</span> <br />
-					</div>';
-				} else{
-					echo'<div class="pub" id="'.$id.'">
-						<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
-						<span>'.$pub['texto'].'</span>
-						<img src = "upload/'.$pub["imagem"].'" />
-					</div>';
+			$saberr = mysql_query("SELECT * FROM users WHERE email='$email'");
+			$saber = mysql_fetch_assoc($saberr);
+			$nome = $saber['apelido'];
+
+			if($amigos == 1){
+				while ($pub=mysql_fetch_assoc($pubs)) {
+					$email = $pub['user'];
+					$id = $pub['id'];
+
+					if($pub['imagem'] == ""){
+						echo '<div class="pub" id="'.$id.'">
+							<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
+							<span>'.$pub['texto'].'</span> <br />
+						</div>';
+					} else{
+						echo'<div class="pub" id="'.$id.'">
+							<p><a href="profile.php?id='.$saber['id'].'">'.$nome.'</a> - '.$pub["data"].'</p>
+							<span>'.$pub['texto'].'</span>
+							<img src = "upload/'.$pub["imagem"].'" />
+						</div>';
+					}
 				}
+			} elseif($amigos==0){
+				echo'<div class="pub" id="'.$id.'">
+							<p>Aviso sobre as amizades</p>
+							<span>Envie um pedido da amizade para poder ver as publicações de '.$nome.'</span><br />
+						</div>';
 			}
 		?>
+
+		<div id="footer"><p>&copy; Write It, 2017 - Todos os direitos Reservados</p></div>
 	</body>
 </html>
